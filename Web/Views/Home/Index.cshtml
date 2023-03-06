@@ -1,0 +1,12 @@
+﻿@model List<DomainModels.ServerInfo>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@foreach (var server in Model)
+{
+    <p>@server.Name</p>
+     <textarea readonly>@server.Content</textarea>              
+    <img src="@server.BannerURL" alt="@server.Name"/>
+}

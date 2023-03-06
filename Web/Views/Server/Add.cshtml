@@ -1,0 +1,27 @@
+@model AddServerViewModel
+
+@{
+	ViewBag.Title = "title";
+	Layout = "_Layout";
+}
+
+<form method="post" asp-action="Add" enctype="multipart/form-data">
+	<div asp-validation-summary="ModelOnly"></div>
+	<div class="mb-3">
+		<label class="form-label" asp-for="Name">Nombre:</label>
+		<input class="form-control" asp-for="Name"/>
+		<span class="text-danger" asp-validation-for="Name"></span>
+	</div>
+	
+	<div class="mb-3">
+		<label class="form-label" asp-for="Content">Contenido:</label>
+		<textarea asp-for="Content" class="form-control" rows="15"></textarea>
+		<span class="text-danger" asp-validation-for="Content"></span>
+	</div>
+		
+	<div class="mb-3"> 
+		<input type="file" asp-for="FileImage" class="form-control" accept=".png, .jpg, .jpge"/>
+	</div>
+	 
+	<button class="btn btn-primary">Crear servidor</button>
+</form>
