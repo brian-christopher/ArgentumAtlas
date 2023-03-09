@@ -1,0 +1,15 @@
+﻿@model DomainModels.Server
+
+<div class="card text-wshite rounded bg-dark" style="width: 18rem;"> 
+    <img class="card-img" src="@Model.BannerURL" alt="@Model.Name" />
+    
+    <div class="card-img-overlay d-flex align-items-end">
+        <div class="d-flex justify-content-around w-100">
+            @foreach (var platform in Model.ServerPlatforms)
+            {
+                <img class="img-thumbnail" src="~/images/os/@(platform.Platform.Name.ToLower()).png" alt="@platform.Platform.Name.ToLower()" />
+            } 
+        </div> 
+    </div>
+    <a class="stretched-link" asp-action="Details" asp-controller="Server" asp-route-id="@Model.ServerId"></a>
+</div>

@@ -22,9 +22,6 @@ namespace ArgentumAtlas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("IconURL")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -36,32 +33,28 @@ namespace ArgentumAtlas.Migrations
                         new
                         {
                             PlatformId = 1,
-                            IconURL = "/images/os/windows.png",
                             Name = "Windows"
                         },
                         new
                         {
                             PlatformId = 2,
-                            IconURL = "/images/os/linux.png",
                             Name = "Linux"
                         },
                         new
                         {
                             PlatformId = 3,
-                            IconURL = "/images/os/mac.png",
                             Name = "Mac"
                         },
                         new
                         {
                             PlatformId = 4,
-                            IconURL = "/images/os/android.png",
                             Name = "Android"
                         });
                 });
 
-            modelBuilder.Entity("DomainModels.ServerInfo", b =>
+            modelBuilder.Entity("DomainModels.Server", b =>
                 {
-                    b.Property<int>("ServerInfoId")
+                    b.Property<int>("ServerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -69,18 +62,66 @@ namespace ArgentumAtlas.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(3000)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discord")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(500)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ServerInfoId");
+                    b.Property<string>("Website")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ServerId");
 
                     b.ToTable("ServerInfos");
+                });
+
+            modelBuilder.Entity("DomainModels.ServerPlatform", b =>
+                {
+                    b.Property<int>("ServerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("PlatformId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ServerId", "PlatformId");
+
+                    b.HasIndex("PlatformId");
+
+                    b.ToTable("ServerPlatforms");
+                });
+
+            modelBuilder.Entity("DomainModels.ServerPlatform", b =>
+                {
+                    b.HasOne("DomainModels.Platform", "Platform")
+                        .WithMany("ServerPlatforms")
+                        .HasForeignKey("PlatformId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DomainModels.Server", "Server")
+                        .WithMany("ServerPlatforms")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Platform");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("DomainModels.Platform", b =>
+                {
+                    b.Navigation("ServerPlatforms");
+                });
+
+            modelBuilder.Entity("DomainModels.Server", b =>
+                {
+                    b.Navigation("ServerPlatforms");
                 });
 #pragma warning restore 612, 618
         }

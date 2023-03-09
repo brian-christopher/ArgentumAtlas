@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ArgentumAtlas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230306005454_Init")]
+    [Migration("20230308143515_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -25,9 +25,6 @@ namespace ArgentumAtlas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("IconURL")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
@@ -39,32 +36,28 @@ namespace ArgentumAtlas.Migrations
                         new
                         {
                             PlatformId = 1,
-                            IconURL = "~/images/os/windows.png",
                             Name = "Windows"
                         },
                         new
                         {
                             PlatformId = 2,
-                            IconURL = "~/images/os/linux.png",
                             Name = "Linux"
                         },
                         new
                         {
                             PlatformId = 3,
-                            IconURL = "~/images/os/mac.png",
                             Name = "Mac"
                         },
                         new
                         {
                             PlatformId = 4,
-                            IconURL = "~/images/os/android.png",
                             Name = "Android"
                         });
                 });
 
-            modelBuilder.Entity("DomainModels.ServerInfo", b =>
+            modelBuilder.Entity("DomainModels.Server", b =>
                 {
-                    b.Property<int>("ServerInfoId")
+                    b.Property<int>("ServerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -72,16 +65,20 @@ namespace ArgentumAtlas.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Discord")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(500)
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
-                    b.HasKey("ServerInfoId");
+                    b.Property<string>("Website")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ServerId");
 
                     b.ToTable("ServerInfos");
                 });

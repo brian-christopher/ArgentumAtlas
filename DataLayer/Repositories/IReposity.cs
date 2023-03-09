@@ -5,9 +5,11 @@ namespace DataLayer.Repositories;
 
 public interface IRepository<T> where T : class
 {
-    Task<List<T>> GetListAsync(); 
+    Task<List<T>> GetListAsync(QueryOptions<T> options);
+    Task<T> GetAsync(QueryOptions<T> options);
     Task<T> GetAsync(int? id);
     Task<T> GetAsync(string id);
+
 
     void Insert(T entity);
     void Update(T entity);

@@ -18,8 +18,7 @@ namespace ArgentumAtlas.Migrations
                 {
                     PlatformId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
-                    IconURL = table.Column<string>(type: "TEXT", nullable: true)
+                    Name = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -30,26 +29,28 @@ namespace ArgentumAtlas.Migrations
                 name: "ServerInfos",
                 columns: table => new
                 {
-                    ServerInfoId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ServerId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
-                    Content = table.Column<string>(type: "TEXT", maxLength: 500, nullable: false),
+                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: true),
+                    Website = table.Column<string>(type: "TEXT", nullable: true),
+                    Discord = table.Column<string>(type: "TEXT", nullable: true),
                     BannerURL = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ServerInfos", x => x.ServerInfoId);
+                    table.PrimaryKey("PK_ServerInfos", x => x.ServerId);
                 });
 
             migrationBuilder.InsertData(
                 table: "Platforms",
-                columns: new[] { "PlatformId", "IconURL", "Name" },
+                columns: new[] { "PlatformId", "Name" },
                 values: new object[,]
                 {
-                    { 1, "~/images/os/windows.png", "Windows" },
-                    { 2, "~/images/os/linux.png", "Linux" },
-                    { 3, "~/images/os/mac.png", "Mac" },
-                    { 4, "~/images/os/android.png", "Android" }
+                    { 1, "Windows" },
+                    { 2, "Linux" },
+                    { 3, "Mac" },
+                    { 4, "Android" }
                 });
         }
 

@@ -1,27 +1,56 @@
-@model AddServerViewModel
+@model ServerCreateViewModel
 
 @{
-	ViewBag.Title = "title";
-	Layout = "_Layout";
+    ViewBag.Title = "title";
+    Layout = "_Layout";
 }
 
-<form method="post" asp-action="Add" enctype="multipart/form-data">
-	<div asp-validation-summary="ModelOnly"></div>
-	<div class="mb-3">
-		<label class="form-label" asp-for="Name">Nombre:</label>
-		<input class="form-control" asp-for="Name"/>
-		<span class="text-danger" asp-validation-for="Name"></span>
-	</div>
-	
-	<div class="mb-3">
-		<label class="form-label" asp-for="Content">Contenido:</label>
-		<textarea asp-for="Content" class="form-control" rows="15"></textarea>
-		<span class="text-danger" asp-validation-for="Content"></span>
-	</div>
-		
-	<div class="mb-3"> 
-		<input type="file" asp-for="FileImage" class="form-control" accept=".png, .jpg, .jpge"/>
-	</div>
-	 
-	<button class="btn btn-primary">Crear servidor</button>
+<form method="post" asp-action="Add" enctype="multipart/form-data" class="row g-3">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="col-md-12">
+        <label class="form-label" asp-for="Name">Nombre del servidor:</label>
+        <input class="form-control" asp-for="Name" />
+    </div>
+
+    <div class="col-md-12">
+        <label class="form-label" asp-for="Content">Descripcion:</label>
+        <textarea class="form-control" asp-for="Content" rows="15"></textarea>
+    </div>
+
+    <div class="col-6">
+        <label class="form-label" asp-for="Website">Sitio web:</label>
+        <input class="form-control" asp-for="Website" />
+    </div>
+
+    <div class="col-6">
+        <label class="form-label" asp-for="Discord">Discord:</label>
+        <input class="form-control" asp-for="Discord" />
+    </div>
+
+    <div class="col-12">
+        <label class="form-label" asp-for="FileImage">Banner</label>
+        <input class="form-control" type="file" asp-for="FileImage" />
+    </div>
+
+    <div class="col-12">
+        <label class="form-label">Selecione las plataformas disponibles:</label>
+         
+        <div>
+        @foreach(var checkbox in Model.CheckBoxes)
+        {
+            <div class="form-check form-check-inline">
+                <input type="checkbox" value="@checkbox.Value" name="@nameof(Model.SelectedPlatforms)" checked="@checkbox.IsCheck"/>
+                <img src="~/images/os/@(checkbox.Description).png"/>
+            </div>
+        }
+        </div>
+    </div>
+ 
+
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">
+            Crear Servidor
+        </button>
+    </div> 
 </form>

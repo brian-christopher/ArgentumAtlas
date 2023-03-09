@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\images\os" />
-      <Folder Include="wwwroot\images\server" />
+      <Folder Include="Views\Shared\Components\" /> 
+      <Folder Include="wwwroot\images\server\" />
     </ItemGroup>
 
     <ItemGroup>

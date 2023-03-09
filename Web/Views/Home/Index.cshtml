@@ -1,12 +1,13 @@
-﻿@model List<DomainModels.ServerInfo>
-
-@{
-    ViewData["Title"] = "Home Page";
-}
-
-@foreach (var server in Model)
-{
-    <p>@server.Name</p>
-     <textarea readonly>@server.Content</textarea>              
-    <img src="@server.BannerURL" alt="@server.Name"/>
-}
+﻿@using DomainModels;
+@model List<DomainModels.Server>
+ 
+<a asp-action="Add" asp-controller="Server">Agregar servidor</a>
+ 
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var server in Model)
+    {
+        <div class="col">
+            <partial name="_CardServerPartial" model="@server" />
+        </div>
+    } 
+</div>
