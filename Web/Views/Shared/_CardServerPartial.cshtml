@@ -11,5 +11,9 @@
             } 
         </div> 
     </div>
-    <a class="stretched-link" asp-action="Details" asp-controller="Server" asp-route-id="@Model.ServerId"></a>
+    <a class="stretched-link"
+        asp-action="Details"
+        asp-controller="Server"
+        asp-route-id="@Model.ServerId"
+        asp-route-slug="@Model.Slug"></a>
 </div>

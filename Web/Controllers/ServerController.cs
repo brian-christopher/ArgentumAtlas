@@ -4,31 +4,26 @@ using DataLayer.Repositories;
 using DomainModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace ArgentumAtlas.Controllers;
 
 public class ServerController : Controller
 {
-    private readonly IRepository<Platform> _repository;
-    private readonly IRepository<Server> _repoServer;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public ServerController(IRepository<Platform> repository, IRepository<Server> repoServer)
+    public ServerController(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
-        _repoServer = repoServer;
-
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
     public async Task<ViewResult> Add()
     {
-        var checkBoxes = (await _repository.GetListAsync(new QueryOptions<Platform>()))
+        var checkBoxes = (await _unitOfWork.Platforms.GetListAsync(new QueryOptions<Platform>()))
             .Select(p => new CheckBoxOption
             {
                 IsCheck = false,
@@ -72,18 +67,10 @@ public class ServerController : Controller
                 {
                     PlatformId = id,
                 });
-            }
+            } 
 
-            //foreach (var id in model.SelectedPlatforms)
-            //{
-            //    server.Platforms.Add(new Platform
-            //    {
-            //        PlatformId = id,
-            //    });
-            //}
-
-            _repoServer.Insert(server);
-            await _repository.SaveAsync();
+            _unitOfWork.Servers.Insert(server);
+            await _unitOfWork.SaveAsync();
 
             await using var stream = new FileStream(path, FileMode.Create);
             await model.FileImage.CopyToAsync(stream);
@@ -91,7 +78,7 @@ public class ServerController : Controller
             return RedirectToAction("Index", "Home");
         }
 
-        var checkBoxes = (await _repository.GetListAsync(new QueryOptions<Platform>()))
+        var checkBoxes = (await _unitOfWork.Platforms.GetListAsync(new QueryOptions<Platform>()))
             .Select(p => new CheckBoxOption
             {
                 IsCheck = false,
@@ -114,8 +101,16 @@ public class ServerController : Controller
         return View(model);
     }
 
-    public ViewResult Details(int id)
+    public async Task<IActionResult> Details(int id)
     {
-        return View();
+        var model = await _unitOfWork.Servers.GetAsync(new QueryOptions<Server>
+        {
+            Where = w => w.ServerId == id,
+            Includes = "ServerPlatforms.Platform"
+        }); 
+
+        if (model == null) return BadRequest(); 
+
+        return View(model);
     }
 }

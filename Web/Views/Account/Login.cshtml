@@ -1,0 +1,31 @@
+﻿@model LoginViewModel
+@{
+    ViewData["Title"] = "Admin Login";
+}
+
+<form asp-action="Login" method="post"> 
+    <div asp-validation-summary="ModelOnly"></div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="UserName">Nombre de usuario:</label>
+        <input class="form-control" asp-for="UserName"/>
+        <span  class="text-danger" asp-validation-for="UserName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label" asp-for="Password">Contraseña:</label>
+        <input type="password" class="form-control" asp-for="Password" />
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+
+    <div class="mb-3">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" asp-for="RememberMe" />
+            <label class="form-check-label" asp-for="RememberMe">
+                Recordar
+            </label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Log in</button> 
+</form>

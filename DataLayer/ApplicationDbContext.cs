@@ -1,10 +1,12 @@
 using DataLayer.SeedData;
 using DomainModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataLayer;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Server> ServerInfos { get; set; }
     public DbSet<Platform> Platforms { get; set; }
@@ -28,7 +30,6 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<ServerPlatform>().HasOne(sp => sp.Platform)
             .WithMany(p => p.ServerPlatforms)
-            .HasForeignKey(sp => sp.PlatformId);
-
+            .HasForeignKey(sp => sp.PlatformId); 
     }
 }

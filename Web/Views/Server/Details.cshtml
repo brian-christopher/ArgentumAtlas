@@ -1,7 +1,77 @@
-﻿
+﻿@model DomainModels.Server
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th colspan="2">Informacion del servidor</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Nombre</td>
+            <td>@Model.Name</td>
+        </tr>
 
+        @if (!string.IsNullOrEmpty(Model.Website))
+        {
+            <tr>
+                <td>Pagina Web</td>
+                <td>
+                    <a class="link-dark" href="@Model.Website" target="_blank">
+                        <em>Website</em>
+                    </a>
+                </td>
+            </tr>
+        }
+
+        @if (!string.IsNullOrEmpty(Model.Discord))
+        {
+            <tr>
+                <td>Discord</td>
+                <td>
+                    <a class="link-dark" href="@Model.Discord" target="_blank">
+                        <em>Discord</em>
+                    </a>
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td>Plataformas disponibles</td>
+            <td>
+                @foreach (var item in Model.ServerPlatforms)
+                {
+                    <img class="img-thumbnail"
+                         src="~/images/os/@(item.Platform.Name.ToLower()).png"
+                         alt="@item.Platform.Name.ToLower()"
+                         data-bs-toggle="tooltip"
+                         data-bs-title="@item.Platform.Name" />
+                }
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="card bg-light mt-3 mb-3">
+    <div class="card-body">
+        <h3 class="card-title">Acerca del servidor</h3>
+
+        <div class="card-text">
+            <strong>@Model.Name</strong>
+            <br />
+            <br />
+
+            @Model.Content
+        </div>
+    </div>
+</div> 
+
+@section Scripts{
+    <script>
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+}

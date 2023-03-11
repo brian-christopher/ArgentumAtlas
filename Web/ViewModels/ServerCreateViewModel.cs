@@ -22,5 +22,5 @@ public class ServerCreateViewModel
     public List<CheckBoxOption> CheckBoxes { get; set; }
 
     [Required(ErrorMessage = "Selecione al menos un sistema operativo disponible")]
-    public List<int> SelectedPlatforms { get; set; }
+    public List<int> SelectedPlatforms { get; set; } 
 }
